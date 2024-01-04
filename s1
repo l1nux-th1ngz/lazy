@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Install swww
+yay -S --noconfirm swww
+
+# Create directories for wallpapers
+mkdir -p $HOME/Wallpapers/Animated
+
+# Initialize swww
+swww init
+
+# Run swww daemon
+while true; do
+    if swww query; then
+        sleep 10
+        continue
+    fi
+
+    # Replace /path/to/image with the path to your image
+    swww-daemon & sleep 0.1 & swww img $HOME/Wallpapers/Animated
+done &
+
+# Create a systemd service file
+echo "[Unit]
+Description=Run swww init until swww query succeeds
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/dw/myswww.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target" > ~/.config/systemd/user/mysee.service
+
+# Enable and start the service
+systemctl --user enable mysee.service
+systemctl --user start mysee.service
+
