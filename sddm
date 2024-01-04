@@ -1,0 +1,15 @@
+# Update 
+sudo pacman -Syu
+
+# Install SDDM
+sudo pacman -S sddm
+
+# Create config file for Wayland
+sudo touch /etc/sddm.conf.d/10-wayland.conf
+
+# Add the following to the new file
+echo "[General]" | sudo tee -a /etc/sddm.conf.d/10-wayland.conf
+echo "DisplayServer=wayland" | sudo tee -a /etc/sddm.conf.d/10-wayland.conf
+
+# Enable SDDM to start at boot
+sudo systemctl enable sddm.service
