@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# App launch key
+declare -A key_app_map=(
+    ["g1"]="terminator"
+    ["g2"]="alacritty"
+    ["g3"]="kitty"
+    ["g4"]="geany"
+    ["g5"]="notepadqq"
+    ["g6"]="firefox"
+)
+
+# Get the key pressed by the user
+read -p "Press a key: " key
+
+# Launch the corresponding application
+if [[ -v key_app_map[$key] ]]; then
+    ${key_app_map[$key]} &
+else
+    echo "Invalid key. Please press a key between G1 and G6."
+fi
